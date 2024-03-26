@@ -18,4 +18,14 @@ public class Grocery {
     private BigDecimal price;
     private String description;
     private byte[] image;
+
+    public Grocery(String name, GroceryCategory category, MeasuringUnit measuringUnit, BigDecimal measure, BigDecimal price, String description, byte[] image) {
+        this.name = name;
+        this.category = category;
+        this.measuringUnit = measuringUnit;
+        this.measure = measure;
+        this.price = price;
+        this.description = description;
+        this.image = image;
+    }
 }

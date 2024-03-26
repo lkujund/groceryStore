@@ -12,15 +12,13 @@ public class GroceryStoreController {
 
 
     @PostMapping("/search")
-    public String searchGroceries()
-    {
-        return("store/search");
+    public String searchGroceries() {
+        return ("redirect:store/search");
     }
 
     @GetMapping("/grocery/{id}")
-    public String getGroceryDetails(@PathVariable Integer id)
-    {
+    public String getGroceryDetails(@PathVariable Integer id) {
 
-        return("store/grocery");
+        return ("store/grocery");
     }
 }
