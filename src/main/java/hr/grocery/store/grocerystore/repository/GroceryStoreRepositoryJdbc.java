@@ -149,11 +149,21 @@ public class GroceryStoreRepositoryJdbc implements GroceryStoreRepository{
             newGrocery.setPrice(rs.getBigDecimal("PRICE"));
             newGrocery.setDescription(rs.getString("DESCRIPTION"));
 
-            Blob imageBlob = rs.getBlob("IMAGE");
 
-            newGrocery.setImage(rs.getBlob("IMAGE"));
+            newGrocery.setImage(mapBlobToByteArray(rs.getBlob("IMAGE")));
 
             return newGrocery;
+        }
+
+        private byte[] mapBlobToByteArray(Blob image) {
+            byte[] imageArr;
+            try {
+                int length = (int) image.length();
+                imageArr = image.getBytes(1, length);
+            } catch (SQLException e) {
+                return new byte[]{};
+            }
+            return  imageArr;
         }
     }
 }
