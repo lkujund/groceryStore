@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @Controller
 @RequestMapping("/store")
 @AllArgsConstructor
-@SessionAttributes({"groceries", "grocerySearchForm"})
+@SessionAttributes({"grocery", "grocerySearchForm"})
 public class GroceryStoreSearchController {
 
     private GroceryService groceryService;
@@ -31,16 +31,16 @@ public class GroceryStoreSearchController {
         }
         if (!model.containsAttribute("grocery"))
         {
-            model.addAttribute( "grocery", new ArrayList<>());
+            model.addAttribute( "grocery", groceryService.findAll());
         }
-        return "store/groceryFilter";
+        return "store/grocerySearch";
     }
 
-    @PostMapping("/grocery")
+    @PostMapping("/grocerySearch")
     public String showFilteredGroceries(Model model, GrocerySearchForm grocerySearchForm)
     {
-        model.addAttribute( "groceries",groceryService.filterByCriteria(grocerySearchForm));
+        model.addAttribute( "grocery",groceryService.filterByCriteria(grocerySearchForm));
         model.addAttribute( "grocerySearchForm", grocerySearchForm);
-        return "redirect:store/groceryStore";
+        return "redirect:/store/grocerySearch";
     }
 }

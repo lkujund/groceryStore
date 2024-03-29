@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grocery store</title>
+</head>
+<body>
+<h1>Search for groceries</h1>
+<div>
+    <form action="#" th:action="@{/store/grocerySearch}" th:object="${grocerySearchForm}" method="post">
+        <p>Name: <input type="text" th:field="*{name}" /></p>
+        <p>
+            Category:
+            <select th:field="*{category}">
+                <option value="">select a grocery category</option>
+                <option th:each="groceryCategory : ${groceryCategoryList}" th:value="${groceryCategory}" th:text="${groceryCategory}"></option>
+            </select>
+        </p>
+        <p>
+            Lower price: <input type="number" th:field="*{lowerPrice}" />
+            Upper price: <input type="number" th:field="*{upperPrice}" />
+        </p>
+        <p>Description: <input type="text" th:field="*{description}" /></p>
+        <p><input type="submit" value="Search" /> <input type="reset" value="Reset" /></p>
+    </form>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th> Name </th>
+        <th> Category </th>
+        <th> Measure </th>
+        <th> Unit </th>
+        <th> Price </th>
+        <th> Description </th>
+        <th> Image </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${grocery.empty}">
+        <td colspan="2"> No groceries to show that meet your criteria. </td>
+    </tr>
+    <tr th:each="grocery : ${grocery}">
+        <td><span th:text="${grocery.name}"> Name </span></td>
+        <td><span th:text="${grocery.categoryString}"> Category </span></td>
+        <td><span th:text="${grocery.measure}"> Measure </span></td>
+        <td><span th:text="${grocery.measuringUnitString}"> Unit </span></td>
+        <td><span th:text="${grocery.price}"> Price </span></td>
+        <td><span th:text="${grocery.description}"> Description </span></td>
+        <td><img th:src="@{'data:image/png;base64,' + ${grocery.image}}" style="width: 80px; height: 80px"/></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

@@ -64,8 +64,8 @@ public class GroceryStoreRepositoryJdbc implements GroceryStoreRepository{
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("name", grocery.getName());
-        params.addValue("category_id", grocery.getCategory().ordinal() - 1);
-        params.addValue("measuring_unit_id", grocery.getMeasuringUnit().ordinal() -1);
+        params.addValue("category_id", grocery.getCategory().ordinal() + 1);
+        params.addValue("measuring_unit_id", grocery.getMeasuringUnit().ordinal() + 1);
         params.addValue("measure", grocery.getMeasure());
         params.addValue("price", grocery.getPrice());
         params.addValue("description", grocery.getDescription());
@@ -76,7 +76,7 @@ public class GroceryStoreRepositoryJdbc implements GroceryStoreRepository{
 
     @Override
     public List<Grocery> filterByCriteria(GrocerySearchForm grocerySearchForm) {
-        StringBuilder sqlQuery = new StringBuilder("SELECT * FROM CAR_PART WHERE 1 = 1 ");
+        StringBuilder sqlQuery = new StringBuilder("SELECT * FROM GROCERY WHERE 1 = 1 ");
 
         List<String> queryArgs = new ArrayList<>();
 
@@ -157,11 +157,14 @@ public class GroceryStoreRepositoryJdbc implements GroceryStoreRepository{
 
         private byte[] mapBlobToByteArray(Blob image) {
             byte[] imageArr;
+            if (image == null){
+                return new byte[]{0};
+            }
             try {
                 int length = (int) image.length();
                 imageArr = image.getBytes(1, length);
             } catch (SQLException e) {
-                return new byte[]{};
+                return new byte[]{0};
             }
             return  imageArr;
         }
