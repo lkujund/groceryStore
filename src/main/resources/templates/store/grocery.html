@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Car Parts Store</title>
+    <title>Grocery Store</title>
 </head>
 <body>
-Car parts store
+Grocery Store
 <div>
 <!--    <form action="#" th:action="@{/store/grocerySearch}" th:object="${grocery}" method="post">
         <p>Name: <input type="text" th:field="*{name}" /></p>
@@ -13,7 +13,7 @@ Car parts store
             Category:
             <select class="form-control" id="dropDownList">
                 <option value="">select category...</option>
-                <option th:each="carPartCategory : ${carPartCategoryList}" th:value="*{category}" th:text="${carPartCategory}"></option>
+                <option th:each="groceryCategory : ${groceryCategoryList}" th:value="*{category}" th:text="${groceryCategory}"></option>
             </select>
         </p>
         <p>Price: <input type="number" th:field="*{price}" /></p>
