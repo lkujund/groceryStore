@@ -32,7 +32,7 @@
     </div>
 </nav>
 <div class="container mt-5">
-    <h2 class="mb-4">Activity Log</h2>
+    <h2 class="mb-4">All Orders</h2>
 
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -45,19 +45,25 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="logs : ${logs}">
-            <td th:text="${logs.id}"></td>
+        <tr th:each="orders : ${orders}">
+            <td th:text="${orders.id}"></td>
+<!--            <td>-->
+<!--                <a th:text="${orders.user}"></a>-->
+<!--            </td>-->
             <td>
-                <a th:text="${logs.name}"></a>
+                <a th:text="${orders.id}"></a>
+            </td>
+<!--            <td>-->
+<!--                <a th:text="${orders.groceries}"></a>-->
+<!--            </td>-->
+            <td>
+                <a th:text="${orders.id}"></a>
             </td>
             <td>
-                <a th:text="${logs.address}"></a>
+                <a th:text="${orders.paymentMethod}"></a>
             </td>
             <td>
-                <a th:text="${logs.loginTs}"></a>
-            </td>
-            <td>
-                <a th:text="${logs.userEvent}"></a>
+                <a th:text="${orders.orderDate}"></a>
             </td>
         </tr>
         </tbody>
