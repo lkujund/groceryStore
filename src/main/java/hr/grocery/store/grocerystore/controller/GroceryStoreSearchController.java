@@ -4,6 +4,7 @@ import hr.grocery.store.grocerystore.model.Grocery;
 import hr.grocery.store.grocerystore.model.GroceryCategory;
 import hr.grocery.store.grocerystore.model.GroceryCategoryEnum;
 import hr.grocery.store.grocerystore.model.GrocerySearchForm;
+import hr.grocery.store.grocerystore.service.GroceryCategoryService;
 import hr.grocery.store.grocerystore.service.GroceryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,10 +19,11 @@ import java.util.ArrayList;
 @Controller
 @RequestMapping("/store")
 @AllArgsConstructor
-@SessionAttributes({"grocery", "grocerySearchForm"})
+@SessionAttributes({"grocery", "grocerySearchForm", "category"})
 public class GroceryStoreSearchController {
 
     private GroceryService groceryService;
+    private GroceryCategoryService groceryCategoryService;
 
     @GetMapping("/grocerySearch")
     public String filterGroceries(Model model)
@@ -43,5 +45,15 @@ public class GroceryStoreSearchController {
         model.addAttribute( "grocery",groceryService.filterByCriteria(grocerySearchForm));
         model.addAttribute( "grocerySearchForm", grocerySearchForm);
         return "redirect:/store/grocerySearch";
+    }
+
+    @GetMapping("/categorySearch")
+    public String filterCategories(Model model)
+    {
+        if (!model.containsAttribute("category"))
+        {
+            model.addAttribute( "category", groceryService.findAll());
+        }
+        return "store/categorySearch";
     }
 }

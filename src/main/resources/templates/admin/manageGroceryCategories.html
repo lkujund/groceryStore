@@ -26,41 +26,29 @@
     </div>
 </nav>
 <div class="container mt-5">
-    <h2 class="mb-4">Manage Groceries</h2>
+    <h2 class="mb-4">Manage Grocery Categories</h2>
 
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Category</th>
-            <th>Measuring Unit</th>
-            <th>Measure</th>
-            <th>Price</th>
-            <th>Description</th>
-            <th>Image</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="grocery : ${grocery}">
-            <td th:text="${grocery.id}"></td>
+        <tr th:each="groceryCategory : ${groceryCategoryList}">
+            <td th:text="${groceryCategory.id}"></td>
             <td>
-                <a th:text="${grocery.name}"></a>
+                <a th:text="${groceryCategory.name}"></a>
             </td>
-            <td th:text="${grocery.category.name}"></td>
-            <td th:text="${grocery.measuringUnit.name}"></td>
-            <td th:text="${grocery.measure}"></td>
-            <td th:text="${grocery.price}"></td>
-            <td th:text="${grocery.description}"></td>
-            <td><img src="data:image/png;base64,${grocery.image}" class="img-fluid" style="width: 80px; height: 80px"/></td>
             <td>
-                <a th:href="@{/admin/editGrocery/{id}(id=${grocery.id})}" class="btn btn-primary btn-sm">Edit</a>
+                <a th:href="@{/admin/editGroceryCategory/{id}(id=${groceryCategory.id})}" class="btn btn-primary btn-sm">Edit</a>
             </td>
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/admin/addGrocery}" class="btn btn-primary btn-sm">Add new</a>
+    <a th:href="@{/admin/addGroceryCategory}" class="btn btn-primary btn-sm">Add new</a>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

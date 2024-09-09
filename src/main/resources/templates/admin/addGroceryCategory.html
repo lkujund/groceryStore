@@ -32,40 +32,10 @@
 
     <div class="card mt-4">
         <div class="card-body">
-            <form action="#" th:action="@{/store/addGrocery}" th:object="${groceryDTO}" method="post" enctype="multipart/form-data">
+            <form action="#" th:action="@{/store/addGroceryCategory}" th:object="${groceryCategoryDTO}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Name:</label>
                     <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="Enter grocery name" required>
-                </div>
-                <div class="form-group">
-                    <label for="category">Category:</label>
-                    <select id="category" class="form-control" th:field="*{categoryString}" required>
-                        <option value="">Select a grocery category</option>
-                        <option th:each="groceryCategory : ${groceryCategoryList}" th:value="${groceryCategory}" th:text="${groceryCategory}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="measuringUnit">Measuring Unit:</label>
-                    <select id="measuringUnit" class="form-control" th:field="*{measuringUnitString}" required>
-                        <option value="">Select a measuring unit</option>
-                        <option th:each="measuringUnit : ${measuringUnitList}" th:value="${measuringUnit}" th:text="${measuringUnit}"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="measure">Measure:</label>
-                    <input type="number" id="measure" class="form-control" th:field="*{measure}" placeholder="Enter measure" required>
-                </div>
-                <div class="form-group">
-                    <label for="price">Price:</label>
-                    <input type="number" id="price" class="form-control" th:field="*{price}" placeholder="Enter price" required>
-                </div>
-                <div class="form-group">
-                    <label for="description">Description:</label>
-                    <textarea id="description" class="form-control" th:field="*{description}" placeholder="Enter a short description" rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="image">Image:</label>
-                    <input type="file" id="image" class="form-control-file" th:field="*{image}" required>
                 </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary">Submit</button>

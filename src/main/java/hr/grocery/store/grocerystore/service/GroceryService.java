@@ -9,8 +9,12 @@ import java.util.Optional;
 
 public interface GroceryService {
     List<GroceryDTO> findAll();
+    List<Grocery> findAllAdmin();
     Optional<GroceryDTO> findById(Integer id);
+    Optional<Grocery> findByIdAdmin(Integer id);
     void save(GroceryDTO groceryDto);
+    void edit(GroceryDTO groceryDto, int id);
     List<GroceryDTO> filterByCriteria(GrocerySearchForm grocerySearchForm);
     List<GroceryDTO> findByName(String name);
+    void deleteById(Integer id);
 }

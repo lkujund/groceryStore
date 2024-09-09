@@ -35,6 +35,11 @@ public class GroceryServiceImpl implements GroceryService{
     }
 
     @Override
+    public List<Grocery> findAllAdmin() {
+       return  groceryStoreRepository.findAll();
+    }
+
+    @Override
     public Optional<GroceryDTO> findById(Integer id) {
         return groceryStoreRepository.findById(id)
                 .stream()
@@ -43,8 +48,29 @@ public class GroceryServiceImpl implements GroceryService{
     }
 
     @Override
+    public Optional<Grocery> findByIdAdmin(Integer id) {
+        return groceryStoreRepository.findById(id);
+    }
+
+    @Override
     public void save(GroceryDTO groceryDto) {
         groceryStoreRepository.save(convertGroceryDTOToGrocery(groceryDto));
+    }
+
+    @Override
+    public void edit(GroceryDTO groceryDto, int id) {
+        Grocery grocery = groceryStoreRepository.findById(id).get();
+        Grocery editedGrocery = convertGroceryDTOToGrocery(groceryDto);
+        grocery.setId(editedGrocery.getId());
+        grocery.setName(editedGrocery.getName());
+        grocery.setCategory(editedGrocery.getCategory());
+        grocery.setMeasuringUnit(editedGrocery.getMeasuringUnit());
+        grocery.setMeasure(editedGrocery.getMeasure());
+        grocery.setPrice(editedGrocery.getPrice());
+        grocery.setDescription(editedGrocery.getDescription());
+        grocery.setImage(editedGrocery.getImage());
+
+        groceryStoreRepository.save(grocery);
     }
 
     @Override
@@ -109,6 +135,11 @@ public class GroceryServiceImpl implements GroceryService{
                     .stream().map(this::convertGroceryToGroceryDTO)
                     .toList();
         }
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        groceryStoreRepository.deleteById(id);
     }
 
     private GroceryDTO convertGroceryToGroceryDTO(Grocery grocery){

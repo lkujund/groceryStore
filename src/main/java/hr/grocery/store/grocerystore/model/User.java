@@ -20,15 +20,20 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "USERNAME")
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "PASSWORD")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "USER_ROLE",
-            joinColumns =  @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roles;
+    @Column(name = "ROLE")
+    private String role;
+
+
+
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "USER_ROLE",
+//            joinColumns =  @JoinColumn(name = "USER_ID", referencedColumnName = "id"),
+//            inverseJoinColumns = @JoinColumn(name = "ROLE_ID", referencedColumnName = "id"))
+//    private List<Role> roles;
 }

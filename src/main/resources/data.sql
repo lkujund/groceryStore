@@ -30,12 +30,27 @@ VALUES ('APPLE', 1, 1, 1.0, 1.19, 'Granny smith'),
        ('CHIA BREAD', 7, 3, 1.0, 1.39, 'Freshly baked bread with chia seeds'),
        ('7DAYS CROISSANT', 8, 3, 1.0, 0.89, 'Double cream croissant');
 
--- INSERT INTO ROLE(ROLE)
+-- INSERT INTO ROLE(NAME)
 -- VALUES('USER'),('ADMIN');
 --
--- INSERT INTO USERS(USERNAME, EMAIL, PWD_HASH, FIRST_NAME, LAST_NAME, ROLE_ID)
--- VALUES ('user1','user1@a.hr','1234','Uso','Userich',1),
---        ('admin','admin@a.hr','1234','Ado','Adminich',2);
+INSERT INTO USERS(USERNAME, PASSWORD, ROLE)
+VALUES ('user','$2a$12$2rPaONNwo.mMzitrpNSSm.ncTTICHnZP1HJs5unFDzj68SCa6/VDa', 'USER'),
+       ('admin','$2a$10$3wrpcr6BIppShGO74CCtNOT1BbOI3T2e4832vW9lBqwAqT6qhkDi2', 'ADMIN');
+
+INSERT INTO ORDERS (USER_ID, ORDER_DATE, PAYMENT_METHOD)
+VALUES (1, '2024-09-09 13:00:00', 'cash'),
+       (1, '2024-09-09 13:01:00', 'paypal');
+
+INSERT INTO ORDER_GROCERY(COUNT, ORDER_ID, GROCERY_ID)
+VALUES (2, 1, 3),
+       (2, 2, 4),
+       (2, 2, 5);
+
+
+-- INSERT INTO USER_ROLE(USER_ID, ROLE_ID)
+-- VALUES (1,1),
+--        (2,2);
+
 --
 -- INSERT INTO PAYMENT_OPTION(OPTION)
 -- VALUES('CASH ON DELIVERY'),('CARD'),('PAYPAL');
