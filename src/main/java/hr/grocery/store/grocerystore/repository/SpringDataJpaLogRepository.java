@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SpringDataJpaLogRepository extends JpaRepository<Log, Long> {
+public interface SpringDataJpaLogRepository extends JpaRepository<Log, Integer> {
 
 }

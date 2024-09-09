@@ -114,12 +114,12 @@ public class AdminController {
     @GetMapping("/viewAllOrders")
     public String showViewAllOrders(Model model) {
         model.addAttribute("orders", groceryCategoryService.findAllAdmin());
-        return "admin/manageGroceryCategories";
+        return "admin/viewAllOrders";
     }
 
     @GetMapping("/viewActivityLog")
     public String showViewActivityLog(Model model) {
         model.addAttribute("logs", logService.getLogs());
-        return "admin/manageGroceryCategories";
+        return "admin/viewActivityLog";
     }
 }

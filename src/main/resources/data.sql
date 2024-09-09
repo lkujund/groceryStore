@@ -47,6 +47,10 @@ VALUES (2, 1, 3),
        (2, 2, 5);
 
 
+INSERT INTO LOG(NAME, ADDRESS, LOGIN_TS, USER_EVENT)
+    VALUES('user', '127.0.0.1', '2024-09-09 16:00:00', 'USER_LOGGED_IN'),
+          ('admin', '127.0.0.1', '2024-09-09 16:01:00', 'USER_LOGGED_IN');
+
 -- INSERT INTO USER_ROLE(USER_ID, ROLE_ID)
 -- VALUES (1,1),
 --        (2,2);

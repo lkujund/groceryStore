@@ -2,9 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All Orders</title>
+    <title>User Activity Log</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand">ADMIN</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAdmin" aria-controls="navbarNavAdmin" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAdmin">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/admin/manageGroceries}">Manage Groceries</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/admin/manageGroceryCategories}">Manage Grocery Categories</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/admin/viewActivityLog}">View Activity Log</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/admin/viewAllOrders}">View All Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/logout}">Log Out</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-5">
+    <h2 class="mb-4">Activity Log</h2>
 
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Groceries</th>
+            <th>Payment Method</th>
+            <th>Order Date</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="logs : ${logs}">
+            <td th:text="${logs.id}"></td>
+            <td>
+                <a th:text="${logs.name}"></a>
+            </td>
+            <td>
+                <a th:text="${logs.address}"></a>
+            </td>
+            <td>
+                <a th:text="${logs.loginTs}"></a>
+            </td>
+            <td>
+                <a th:text="${logs.userEvent}"></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
