@@ -23,12 +23,12 @@ public class Grocery {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "CATEGORY")
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
     private GroceryCategory category;
 
-    @Column(name = "MEASURING_UNIT")
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "MEASURING_UNIT_ID")
     private MeasuringUnit measuringUnit;
 
     @Column(name = "MEASURE")

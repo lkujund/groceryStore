@@ -12,4 +12,5 @@ public interface GroceryService {
     Optional<GroceryDTO> findById(Integer id);
     void save(GroceryDTO groceryDto);
     List<GroceryDTO> filterByCriteria(GrocerySearchForm grocerySearchForm);
+    List<GroceryDTO> findByName(String name);
 }

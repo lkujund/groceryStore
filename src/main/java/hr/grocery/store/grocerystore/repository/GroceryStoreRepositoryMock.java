@@ -1,9 +1,6 @@
 package hr.grocery.store.grocerystore.repository;
 
-import hr.grocery.store.grocerystore.model.Grocery;
-import hr.grocery.store.grocerystore.model.GroceryCategory;
-import hr.grocery.store.grocerystore.model.GrocerySearchForm;
-import hr.grocery.store.grocerystore.model.MeasuringUnit;
+import hr.grocery.store.grocerystore.model.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -19,10 +16,10 @@ public class GroceryStoreRepositoryMock implements GroceryStoreRepository {
         Grocery grocery = new Grocery();
         grocery.setId(1);
         grocery.setName("Banana");
-        grocery.setMeasuringUnit(MeasuringUnit.KILOGRAM);
+        grocery.setMeasuringUnit(new MeasuringUnit(1, MeasuringUnitEnum.KILOGRAM.name()));
         grocery.setMeasure(new BigDecimal(1));
-        grocery.setCategory(GroceryCategory.FRUITS_AND_VEGETABLES);
-        grocery.setDescription("235/45/R18");
+        grocery.setCategory(new GroceryCategory(1, GroceryCategoryEnum.FRUITS_AND_VEGETABLES.name()));
+        grocery.setDescription("Banana");
         grocery.setPrice(new BigDecimal("1.3"));
 
         groceryList.add(grocery);
@@ -63,7 +60,7 @@ public class GroceryStoreRepositoryMock implements GroceryStoreRepository {
         {
             groceryList = groceryList
                     .stream()
-                    .filter(g -> g.getCategory().name().equals(grocerySearchForm.getCategory()))
+                    .filter(g -> g.getCategory().getName().equals(grocerySearchForm.getCategory()))
                     .toList();
 
         }

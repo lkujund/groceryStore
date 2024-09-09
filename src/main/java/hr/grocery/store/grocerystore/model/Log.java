@@ -2,21 +2,22 @@ package hr.grocery.store.grocerystore.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
+
 @Entity
-@Table(name = "MEASURING_UNIT")
-@NoArgsConstructor
+@Table(name = "LOG")
 @AllArgsConstructor
-@Data
-@EqualsAndHashCode
-public class MeasuringUnit {
+@NoArgsConstructor
+public class Log {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Integer id;
-    @Column(name = "NAME")
+    private Long id;
     private String name;
+    private String address;
+    private Instant loginTs;
+    @Enumerated(EnumType.STRING)
+    private UserEvent userEvent;
 }

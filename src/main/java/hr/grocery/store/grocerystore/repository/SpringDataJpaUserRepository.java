@@ -1,4 +1,12 @@
 package hr.grocery.store.grocerystore.repository;
 
-public interface SpringDataJpaUserRepository {
+import hr.grocery.store.grocerystore.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface SpringDataJpaUserRepository extends JpaRepository<User, Long> {
+    List<User> findByUsernameIgnoreCase(String username);
 }

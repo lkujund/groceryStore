@@ -1,8 +1,22 @@
 package hr.grocery.store.grocerystore.model;
 
-public enum GroceryCategory {
-    FRUITS_AND_VEGETABLES, MEAT, FISH, DAIRY,
-    OILS_AND_VINEGARS, SPICES, BAKERY, SWEETS_AND_PASTRIES,
-    ALCOHOL_DRINKS, NON_ALCOHOL_DRINKS, TOBACCO, CANNED_FOODS,
-    COFFEE_AND_TEA, BASIC_FOODSTUFFS, FROZEN_GOODS, HOUSEHOLD_ITEMS
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "GROCERY_CATEGORY")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@EqualsAndHashCode
+public class GroceryCategory {
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(name = "ID")
+private Integer id;
+    @Column(name = "NAME")
+    private String name;
 }

@@ -2,6 +2,7 @@ package hr.grocery.store.grocerystore.controller;
 
 import hr.grocery.store.grocerystore.model.Grocery;
 import hr.grocery.store.grocerystore.model.GroceryCategory;
+import hr.grocery.store.grocerystore.model.GroceryCategoryEnum;
 import hr.grocery.store.grocerystore.model.GrocerySearchForm;
 import hr.grocery.store.grocerystore.service.GroceryService;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class GroceryStoreSearchController {
     @GetMapping("/grocerySearch")
     public String filterGroceries(Model model)
     {
-        model.addAttribute("groceryCategoryList", GroceryCategory.values());
+        model.addAttribute("groceryCategoryList", GroceryCategoryEnum.values());
         if (!model.containsAttribute("grocerySearchForm")) {
             model.addAttribute("grocerySearchForm", new GrocerySearchForm());
         }

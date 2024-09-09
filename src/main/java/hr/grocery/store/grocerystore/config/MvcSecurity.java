@@ -19,10 +19,14 @@ public class MvcSecurity {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/store/addGrocery").hasRole("ADMIN")
+//                        .requestMatchers("/store/addGrocery").hasRole("ADMIN")
+                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form.defaultSuccessUrl("/mvc/carParts"))
+                .csrf(csrf -> csrf.disable())
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+                .formLogin(form -> form.defaultSuccessUrl("/store/grocerySearch"))
                 .logout(LogoutConfigurer::permitAll);
 
         return http.build();

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grocery store</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+Add a new grocery
+
+<div>
+    <form action="#" th:action="@{/store/addGrocery}" th:object="${groceryDTO}" method="post">
+        <p>Name: <input type="text" th:field="*{name}" /></p>
+        <p>
+            Category:
+            <select th:field="*{categoryString}">
+                <option value="">Select a grocery category</option>
+                <option th:each="groceryCategory : ${groceryCategoryList}" th:value="${groceryCategory}" th:text="${groceryCategory}"></option>
+            </select>
+        </p>
+        <p>
+            Measuring unit:
+            <select th:field="*{measuringUnitString}">
+                <option value="">Select a measuring unit</option>
+                <option th:each="measuringUnit : ${measuringUnitList}" th:value="${measuringUnit}" th:text="${measuringUnit}"></option>
+            </select>
+        </p>
+        <p>Measure: <input type="number" th:field="*{measure}" /></p>
+        <p>Price: <input type="number" th:field="*{price}" /></p>
+        <p>Description: <input type="text" th:field="*{description}" /></p>
+        <p>Image: <input type="file" th:field="*{image}" /></p>
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
