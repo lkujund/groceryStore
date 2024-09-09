@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SpringDataJpaMeasuringUnitRepository extends JpaRepository<GroceryCategory, Integer> {
+public interface SpringDataJpaMeasuringUnitRepository extends JpaRepository<MeasuringUnit, Integer> {
     List<MeasuringUnit> findByName(String name);
 }

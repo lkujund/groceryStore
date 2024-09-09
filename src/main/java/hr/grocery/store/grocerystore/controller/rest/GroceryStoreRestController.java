@@ -1,6 +1,7 @@
 package hr.grocery.store.grocerystore.controller.rest;
 
 import hr.grocery.store.grocerystore.dto.GroceryDTO;
+import hr.grocery.store.grocerystore.model.Grocery;
 import hr.grocery.store.grocerystore.model.GroceryCategory;
 import hr.grocery.store.grocerystore.model.MeasuringUnit;
 import hr.grocery.store.grocerystore.service.GroceryService;
@@ -22,7 +23,7 @@ public class GroceryStoreRestController {
     private GroceryService groceryService;
 
     @GetMapping("/grocery/name/{name}")
-    public ResponseEntity<List<GroceryDTO>> getCarPartByName(@PathVariable String name) {
-        return new ResponseEntity<>(groceryService.findByName(name), HttpStatus.OK);
+    public ResponseEntity<List<Grocery>> getCarPartByName(@PathVariable String name) {
+        return new ResponseEntity<>(groceryService.findByNameAdmin(name), HttpStatus.OK);
     }
 }

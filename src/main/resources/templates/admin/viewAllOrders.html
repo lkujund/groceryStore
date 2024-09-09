@@ -5,6 +5,79 @@
     <title>User Activity Log</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
+<script>
+    function callAjaxFilterName(value) {
+        $.ajax({
+            type: 'GET',
+            url: '/rest/order/name/' + (value.length >= 3 ? value : '*'),
+            dataType: 'json',
+            success: function(orders) {
+                console.log(orders);
+                let tableBody = document.querySelector('.table tbody');
+                tableBody.innerHTML = '';
+
+                if (orders.length === 0) {
+                    tableBody.innerHTML = `<tr>
+                                <td colspan="7" class="text-center">No orders found.</td>
+                            </tr>`;
+                } else {
+                    orders.forEach(function(orders) {
+                        let row = `<tr>
+                                            <td>${grocery.name}</td>
+                                            <td>${grocery.categoryString}</td>
+                                            <td>${grocery.measure}</td>
+                                            <td>${grocery.measuringUnitString}</td>
+                                            <td>${grocery.price} €</td>
+                                            <td>${grocery.description}</td>
+                                            <td><img src="data:image/png;base64,${grocery.image}" class="img-fluid" style="width: 80px; height: 80px"/></td>
+                                        </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                }
+            },
+            error: function() {
+                console.log('Error loading ');
+            }
+        });
+
+    }
+
+    function callAjaxFilterDate(value) {
+        $.ajax({
+            type: 'GET',
+            url: '/rest/order/date/' + (value.length >= 3 ? value : '*'),
+            dataType: 'json',
+            success: function(orders) {
+                console.log(orders);
+                let tableBody = document.querySelector('.table tbody');
+                tableBody.innerHTML = '';
+
+                if (orders.length === 0) {
+                    tableBody.innerHTML = `<tr>
+                                <td colspan="7" class="text-center">No orders found.</td>
+                            </tr>`;
+                } else {
+                    orders.forEach(function(orders) {
+                        let row = `<tr>
+                                            <td>${grocery.name}</td>
+                                            <td>${grocery.categoryString}</td>
+                                            <td>${grocery.measure}</td>
+                                            <td>${grocery.measuringUnitString}</td>
+                                            <td>${grocery.price} €</td>
+                                            <td>${grocery.description}</td>
+                                            <td><img src="data:image/png;base64,${grocery.image}" class="img-fluid" style="width: 80px; height: 80px"/></td>
+                                        </tr>`;
+                        tableBody.innerHTML += row;
+                    });
+                }
+            },
+            error: function() {
+                console.log('Error loading ');
+            }
+        });
+
+    }
+</script>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand">ADMIN</a>
@@ -45,25 +118,40 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="orders : ${orders}">
-            <td th:text="${orders.id}"></td>
-<!--            <td>-->
-<!--                <a th:text="${orders.user}"></a>-->
-<!--            </td>-->
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
             <td>
-                <a th:text="${orders.id}"></a>
-            </td>
-<!--            <td>-->
-<!--                <a th:text="${orders.groceries}"></a>-->
-<!--            </td>-->
-            <td>
-                <a th:text="${orders.id}"></a>
+                <a th:text="${order.user.username}"></a>
             </td>
             <td>
-                <a th:text="${orders.paymentMethod}"></a>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Measure</th>
+                        <th>Count</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="grocery : ${order.groceries}">
+                        <td th:text="${grocery.grocery.name}"></td>
+                        <td th:text="${grocery.grocery.category}"></td>
+                        <td th:text="${grocery.grocery.measure} + ' ' + ${grocery.grocery.measuringUnit.name}"></td>
+                        <td th:text="${grocery.count}"></td>
+                        <td th:text="${{grocery.grocery.price * grocery.count}}"></td>
+                        <td th:text="${grocery.grocery.description}"></td>
+                    </tr>
+                    </tbody>
+                </table>
             </td>
             <td>
-                <a th:text="${orders.orderDate}"></a>
+                <a th:text="${order.paymentMethod}"></a>
+            </td>
+            <td>
+                <a th:text="${#dates.format(order.orderTs, 'dd.MM.yyyy HH:mm:ss')}"></a>
             </td>
         </tr>
         </tbody>

@@ -34,7 +34,7 @@ public class GroceryStoreSearchController {
         }
         if (!model.containsAttribute("grocery"))
         {
-            model.addAttribute( "grocery", groceryService.findAll());
+            model.addAttribute( "grocery", groceryService.findAllAdmin());
         }
         return "store/grocerySearch";
     }

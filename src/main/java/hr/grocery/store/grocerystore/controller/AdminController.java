@@ -2,15 +2,21 @@ package hr.grocery.store.grocerystore.controller;
 
 import hr.grocery.store.grocerystore.dto.GroceryCategoryDTO;
 import hr.grocery.store.grocerystore.dto.GroceryDTO;
+import hr.grocery.store.grocerystore.model.Grocery;
 import hr.grocery.store.grocerystore.model.GroceryCategoryEnum;
 import hr.grocery.store.grocerystore.model.MeasuringUnitEnum;
 import hr.grocery.store.grocerystore.service.GroceryCategoryService;
 import hr.grocery.store.grocerystore.service.GroceryService;
 import hr.grocery.store.grocerystore.service.LogService;
+import hr.grocery.store.grocerystore.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.Base64;
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -19,12 +25,19 @@ public class AdminController {
     private GroceryService groceryService;
     private GroceryCategoryService groceryCategoryService;
     private LogService logService;
+    private OrderService orderService;
 
 
     //GROCERY
 
     @GetMapping("/manageGroceries")
     public String showManageGroceries(Model model) {
+        List<Grocery> groceryList = groceryService.findAllAdmin();
+        groceryList.forEach(grocery -> {
+            if (grocery.getImage() != null) {
+                grocery.setB64Image(Base64.getEncoder().encodeToString(grocery.getImage()));
+            }
+        });
         model.addAttribute("grocery", groceryService.findAllAdmin());
         return "admin/manageGroceries";
     }
@@ -40,7 +53,7 @@ public class AdminController {
 
 
     @PostMapping("/addGrocery")
-    public String saveNewGrocery(@ModelAttribute GroceryDTO groceryDTO, Model model) {
+    public String saveNewGrocery(@ModelAttribute GroceryDTO groceryDTO, Model model) throws IOException {
         groceryService.save(groceryDTO);
         return "redirect:manageGroceries";
     }
@@ -55,15 +68,15 @@ public class AdminController {
     }
 
     @PostMapping("/editGrocery/{id}")
-    public String editGrocery(@ModelAttribute GroceryDTO groceryDTO, Model model) {
-        groceryService.save(groceryDTO);
-        return "redirect:manageGroceries";
+    public String editGrocery(@PathVariable int id, @ModelAttribute GroceryDTO groceryDTO, Model model) throws IOException {
+        groceryService.edit(groceryDTO, id);
+        return "redirect:../manageGroceries";
     }
 
     @PostMapping("/deleteGrocery/{id}")
     public String deleteGrocery(@PathVariable int id) {
         groceryService.deleteById(id);
-        return "redirect:manageGroceries";
+        return "redirect:../manageGroceries";
     }
 
 
@@ -84,8 +97,8 @@ public class AdminController {
     }
 
     @PostMapping("/addGroceryCategory")
-    public String saveNewGroceryCategory(@ModelAttribute GroceryDTO groceryDTO, Model model) {
-        groceryService.save(groceryDTO);
+    public String saveNewGroceryCategory(@ModelAttribute GroceryCategoryDTO groceryCategoryDTO, Model model) {
+        groceryCategoryService.save(groceryCategoryDTO);
         return "redirect:manageGroceryCategories";
     }
 
@@ -98,13 +111,13 @@ public class AdminController {
     @PostMapping("/editGroceryCategory/{id}")
     public String editGroceryCategory(@ModelAttribute GroceryCategoryDTO groceryCategoryDTO, Model model, @PathVariable int id) {
         groceryCategoryService.edit(groceryCategoryDTO, id);
-        return "redirect:manageGroceryCategories";
+        return "redirect:../manageGroceryCategories";
     }
 
     @PostMapping("/deleteGroceryCategory/{id}")
     public String deleteGroceryCategory(@PathVariable int id) {
         groceryCategoryService.deleteById(id);
-        return "redirect:manageGroceryCategories";
+        return "redirect:../manageGroceryCategories";
     }
 
 
@@ -113,7 +126,7 @@ public class AdminController {
 
     @GetMapping("/viewAllOrders")
     public String showViewAllOrders(Model model) {
-        model.addAttribute("orders", groceryCategoryService.findAllAdmin());
+        model.addAttribute("orders", orderService.getOrders());
         return "admin/viewAllOrders";
     }
 

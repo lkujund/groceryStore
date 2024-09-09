@@ -45,12 +45,25 @@
                             groceries.forEach(function(grocery) {
                                 let row = `<tr>
                                             <td>${grocery.name}</td>
-                                            <td>${grocery.categoryString}</td>
+                                            <td>${grocery.category.name}</td>
                                             <td>${grocery.measure}</td>
-                                            <td>${grocery.measuringUnitString}</td>
+                                            <td>${grocery.measuringUnit.name}</td>
                                             <td>${grocery.price} €</td>
                                             <td>${grocery.description}</td>
-                                            <td><img src="data:image/png;base64,${grocery.image}" class="img-fluid" style="width: 80px; height: 80px"/></td>
+                                            <td><img src="data:image/png;base64,${grocery.b64Image}" class="img-fluid" style="width: 80px; height: 80px"/></td>
+                                            <td>
+                                                <form th:action="@{/store/addToCart}" method="post" class="d-flex align-items-center">
+                                                    <input type="hidden" name="id" th:value="${grocery.id}" />
+                                                    <div class="input-group mr-2" style="max-width: 120px;">
+                                                        <input type="number" name="amount" class="form-control" value="1" min="1" aria-label="Quantity">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-cart-plus"></i> Add
+                                                    </button>
+                                                </form>
+                                            </td>
+
+</td>
                                         </tr>`;
                                 tableBody.innerHTML += row;
                             });
@@ -73,8 +86,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="#" th:href="@{/store/grocerySearch}">Search for groceries</a>
+            </li>
+                        <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/store/categorySearch}">Search for categories</a>
+            </li>
+                        <li class="nav-item">
+                <a class="nav-link" href="#" th:href="@{/store/shoppingCart}">View cart</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#" th:href="@{/logout}">Log Out</a>
@@ -150,20 +169,32 @@
                 <th>Price</th>
                 <th>Description</th>
                 <th>Image</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:if="${grocery.empty}">
-                <td colspan="7" class="text-center">No groceries to show that meet your criteria.</td>
+                <td colspan="8" class="text-center">No groceries to show that meet your criteria.</td>
             </tr>
             <tr th:each="grocery : ${grocery}">
                 <td><span th:text="${grocery.name}">Name</span></td>
-                <td><span th:text="${grocery.categoryString}">Category</span></td>
+                <td><span th:text="${grocery.category.name}">Category</span></td>
                 <td><span th:text="${grocery.measure}">Measure</span></td>
-                <td><span th:text="${grocery.measuringUnitString}">Unit</span></td>
+                <td><span th:text="${grocery.measuringUnit.name}">Unit</span></td>
                 <td><span th:text="${grocery.price}+' €'">Price</span></td>
                 <td><span th:text="${grocery.description}">Description</span></td>
-                <td><img th:src="@{'data:image/png;base64,' + ${grocery.image}}" class="img-fluid" style="width: 80px; height: 80px"/></td>
+                <td><img th:src="@{'data:image/png;base64,' + ${grocery.b64Image}}" class="img-fluid" style="width: 80px; height: 80px"/></td>
+                <td>
+                    <form th:action="@{/store/addToCart}" method="post" class="d-flex align-items-center">
+                        <input type="hidden" name="id" th:value="${grocery.id}" />
+                        <div class="input-group mr-2" style="max-width: 120px;">
+                            <input type="number" name="amount" class="form-control" value="1" min="1" aria-label="Quantity">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="fas fa-cart-plus"></i> Add
+                        </button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>

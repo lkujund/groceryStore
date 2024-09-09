@@ -12,7 +12,11 @@ import hr.grocery.store.grocerystore.repository.SpringDataJpaGroceryRepository;
 import hr.grocery.store.grocerystore.repository.SpringDataJpaMeasuringUnitRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,15 +57,14 @@ public class GroceryServiceImpl implements GroceryService{
     }
 
     @Override
-    public void save(GroceryDTO groceryDto) {
+    public void save(GroceryDTO groceryDto) throws IOException {
         groceryStoreRepository.save(convertGroceryDTOToGrocery(groceryDto));
     }
 
     @Override
-    public void edit(GroceryDTO groceryDto, int id) {
+    public void edit(GroceryDTO groceryDto, int id) throws IOException {
         Grocery grocery = groceryStoreRepository.findById(id).get();
         Grocery editedGrocery = convertGroceryDTOToGrocery(groceryDto);
-        grocery.setId(editedGrocery.getId());
         grocery.setName(editedGrocery.getName());
         grocery.setCategory(editedGrocery.getCategory());
         grocery.setMeasuringUnit(editedGrocery.getMeasuringUnit());
@@ -74,7 +77,7 @@ public class GroceryServiceImpl implements GroceryService{
     }
 
     @Override
-    public List<GroceryDTO> filterByCriteria(GrocerySearchForm grocerySearchForm) {
+    public List<Grocery> filterByCriteria(GrocerySearchForm grocerySearchForm) {
         List<Grocery> groceryList = groceryStoreRepository.findAll();
 
         if (!grocerySearchForm.getName().isEmpty())
@@ -118,10 +121,11 @@ public class GroceryServiceImpl implements GroceryService{
                     .toList();
         }
 
-        return groceryList
-                .stream()
-                .map(this::convertGroceryToGroceryDTO)
-                .toList();
+        return groceryList;
+//        return groceryList
+//                .stream()
+//                .map(this::convertGroceryToGroceryDTO)
+//                .toList();
     }
 
     @Override
@@ -134,6 +138,14 @@ public class GroceryServiceImpl implements GroceryService{
             return groceryStoreRepository.findByNameContainingIgnoreCase(name)
                     .stream().map(this::convertGroceryToGroceryDTO)
                     .toList();
+        }
+    }
+    @Override
+    public List<Grocery> findByNameAdmin(String name) {
+        if (name.equals("*")){
+            return groceryStoreRepository.findAll();
+        }else {
+            return groceryStoreRepository.findByNameContainingIgnoreCase(name);
         }
     }
 
@@ -150,21 +162,67 @@ public class GroceryServiceImpl implements GroceryService{
                 grocery.getMeasure(),
                 grocery.getPrice(),
                 grocery.getDescription(),
-                grocery.getImage()
+                new MultipartFile() {
+                    @Override
+                    public String getName() {
+                        return "";
+                    }
+
+                    @Override
+                    public String getOriginalFilename() {
+                        return "";
+                    }
+
+                    @Override
+                    public String getContentType() {
+                        return "";
+                    }
+
+                    @Override
+                    public boolean isEmpty() {
+                        return false;
+                    }
+
+                    @Override
+                    public long getSize() {
+                        return 0;
+                    }
+
+                    @Override
+                    public byte[] getBytes() throws IOException {
+                        if (grocery.getImage() != null)
+                        {
+                            return grocery.getImage();
+                        }else{
+                            return new byte[0];
+                        }
+                    }
+
+                    @Override
+                    public InputStream getInputStream() throws IOException {
+                        return null;
+                    }
+
+                    @Override
+                    public void transferTo(File dest) throws IOException, IllegalStateException {
+
+                    }
+                },
+                grocery.getB64Image()
         );
     }
 
-    private Grocery convertGroceryDTOToGrocery(GroceryDTO groceryDTO)
-    {
+    private Grocery convertGroceryDTOToGrocery(GroceryDTO groceryDTO) throws IOException {
         List<GroceryCategory> groceryCategoryList =
                 groceryCategoryRepository.findByName(groceryDTO.getCategoryString());
 
         GroceryCategory groceryCategory = groceryCategoryList.getFirst();
 
         List<MeasuringUnit> measuringUnitList =
-                measuringUnitRepository.findByName(groceryDTO.getCategoryString());
+                measuringUnitRepository.findByName(groceryDTO.getMeasuringUnitString());
 
         MeasuringUnit measuringUnit = measuringUnitList.getFirst();
+
 
         return new Grocery(
                 groceryDTO.getName(),
@@ -173,7 +231,7 @@ public class GroceryServiceImpl implements GroceryService{
                 groceryDTO.getMeasure(),
                 groceryDTO.getPrice(),
                 groceryDTO.getDescription(),
-                groceryDTO.getImage()
+                groceryDTO.getImage().getBytes()
         );
     }
 }

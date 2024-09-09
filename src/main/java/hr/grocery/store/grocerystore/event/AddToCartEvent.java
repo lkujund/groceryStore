@@ -1,5 +1,6 @@
 package hr.grocery.store.grocerystore.event;
 
+import hr.grocery.store.grocerystore.model.CartGrocery;
 import hr.grocery.store.grocerystore.model.Grocery;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,9 +10,9 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 public class AddToCartEvent  extends ApplicationEvent
 {
-    private Grocery grocery;
+    private CartGrocery grocery;
 
-    public AddToCartEvent(Object source, Grocery grocery) {
+    public AddToCartEvent(Object source, CartGrocery grocery) {
         super(source);
         this.grocery = grocery;
     }

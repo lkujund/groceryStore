@@ -12,7 +12,6 @@ import java.util.List;
 @Table(name = "ORDERS")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,5 +28,6 @@ public class Order {
     private String paymentMethod;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date orderDate;
+    @Column(name = "ORDER_DATE")
+    private Date orderTs = new Date();
 }

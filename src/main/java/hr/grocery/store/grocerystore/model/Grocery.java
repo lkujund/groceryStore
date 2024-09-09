@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Base64;
 
 @Entity
 @Table(name = "GROCERY")
@@ -40,8 +41,12 @@ public class Grocery {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Lob
     @Column(name = "IMAGE")
     private byte[] image;
+
+    @Column(columnDefinition = "TEXT")
+    private String b64Image;
 
     public Grocery(String name, GroceryCategory category, MeasuringUnit measuringUnit, BigDecimal measure, BigDecimal price, String description, byte[] image) {
         this.name = name;
@@ -51,5 +56,6 @@ public class Grocery {
         this.price = price;
         this.description = description;
         this.image = image;
+        this.b64Image = Base64.getEncoder().encodeToString(this.image);
     }
 }

@@ -27,4 +27,10 @@ public class OrderServiceImpl implements OrderService{
         User user = userRepository.findUserByUsername(username);
         return orderRepository.findByUser(user);
     }
+
+    @Override
+    public List<Order> getOrdersByDate(String date) {
+        return List.of();
+    }
+
 }

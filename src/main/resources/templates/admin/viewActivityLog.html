@@ -54,7 +54,7 @@
                 <a th:text="${logs.address}"></a>
             </td>
             <td>
-                <a th:text="${logs.loginTs}"></a>
+                <a th:text="${#dates.format(logs.loginTs, 'dd.MM.yyyy HH:mm:ss')}"></a>
             </td>
             <td>
                 <a th:text="${logs.userEvent}"></a>
