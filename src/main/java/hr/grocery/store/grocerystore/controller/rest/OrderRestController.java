@@ -29,6 +29,7 @@ public class OrderRestController {
 
     @GetMapping("/order/date/{date}")
     public ResponseEntity<List<Order>> getOrderByDate(@PathVariable String date) {
-        return new ResponseEntity<>(orderService.getOrdersByDate(date), HttpStatus.OK);
+        return new ResponseEntity<>(orderService.getOrders(), HttpStatus.OK);
+//        return new ResponseEntity<>(orderService.getOrdersByDate(date), HttpStatus.OK);
     }
 }

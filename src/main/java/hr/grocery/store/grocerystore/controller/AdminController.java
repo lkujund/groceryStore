@@ -2,9 +2,7 @@ package hr.grocery.store.grocerystore.controller;
 
 import hr.grocery.store.grocerystore.dto.GroceryCategoryDTO;
 import hr.grocery.store.grocerystore.dto.GroceryDTO;
-import hr.grocery.store.grocerystore.model.Grocery;
-import hr.grocery.store.grocerystore.model.GroceryCategoryEnum;
-import hr.grocery.store.grocerystore.model.MeasuringUnitEnum;
+import hr.grocery.store.grocerystore.model.*;
 import hr.grocery.store.grocerystore.service.GroceryCategoryService;
 import hr.grocery.store.grocerystore.service.GroceryService;
 import hr.grocery.store.grocerystore.service.LogService;
@@ -21,6 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 @AllArgsConstructor
+//@SessionAttributes({"orders", "orderSearchForm"})
 public class AdminController {
     private GroceryService groceryService;
     private GroceryCategoryService groceryCategoryService;
@@ -126,7 +125,13 @@ public class AdminController {
 
     @GetMapping("/viewAllOrders")
     public String showViewAllOrders(Model model) {
-        model.addAttribute("orders", orderService.getOrders());
+        if (!model.containsAttribute("orderSearchForm")) {
+            model.addAttribute( "orderSearchForm", new OrderSearchForm());
+        }
+        if (!model.containsAttribute("orders"))
+        {
+            model.addAttribute("orders", orderService.getOrders());
+        }
         return "admin/viewAllOrders";
     }
 
@@ -134,5 +139,13 @@ public class AdminController {
     public String showViewActivityLog(Model model) {
         model.addAttribute("logs", logService.getLogs());
         return "admin/viewActivityLog";
+    }
+
+    @PostMapping("/orderSearch")
+    public String showFilteredOrders(Model model, OrderSearchForm orderSearchForm)
+    {
+        model.addAttribute( "orders",orderService.filterByCriteria(orderSearchForm));
+        model.addAttribute( "orderSearchForm", orderSearchForm);
+        return "admin/viewAllOrders";
     }
 }

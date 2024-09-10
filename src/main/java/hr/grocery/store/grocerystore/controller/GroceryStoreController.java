@@ -6,10 +6,7 @@ import com.paypal.base.rest.PayPalRESTException;
 import hr.grocery.store.grocerystore.event.AddToCartEvent;
 import hr.grocery.store.grocerystore.model.CartGrocery;
 import hr.grocery.store.grocerystore.model.Grocery;
-import hr.grocery.store.grocerystore.service.GroceryCategoryService;
-import hr.grocery.store.grocerystore.service.GroceryService;
-import hr.grocery.store.grocerystore.service.PayPalService;
-import hr.grocery.store.grocerystore.service.ShoppingCartService;
+import hr.grocery.store.grocerystore.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
@@ -31,6 +28,7 @@ public class GroceryStoreController {
     private ApplicationEventPublisher eventPublisher;
     private PayPalService payPalService;
     private HttpServletRequest request;
+    private OrderService orderService;
 
 
     //SHOPPING CART
@@ -39,9 +37,6 @@ public class GroceryStoreController {
     public String addToCart(@RequestParam("id") int id,
                             @RequestParam("amount") int amount)
     {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String username = authentication.getName();
-
         Grocery grocery = groceryService.findByIdAdmin(id).get();
 
         CartGrocery cartGrocery = new CartGrocery();
@@ -94,8 +89,25 @@ public class GroceryStoreController {
         return "store/checkout";
     }
 
+    //MY ORDERS
+
+    @GetMapping("/myOrders")
+    public String viewMyOrders(Model model){
+        //TODO: stavit da nade usera pa da po njemu trazi
+        model.addAttribute("orders", orderService.getOrdersByUser("user"));
+        return "store/myOrders";
+    }
+
 
     //PAYMENT
+
+
+    @GetMapping("/payCash")
+    public String payOnDelivery(){
+        shoppingCartService.pay("COD");
+
+        return "store/success";
+    }
 
     @GetMapping("/payPal")
     public RedirectView payWithPayPal(){
@@ -138,7 +150,6 @@ public class GroceryStoreController {
         try {
             shoppingCartService.pay("PAYPAL");
             Payment payment = payPalService.doPayment(paymentId, payerId);
-            System.out.println(payment.toJSON());
             if(payment.getState().equals("approved")){
                 return "store/success";
             }

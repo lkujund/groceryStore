@@ -1,6 +1,8 @@
 package hr.grocery.store.grocerystore.service;
 
+import hr.grocery.store.grocerystore.model.Grocery;
 import hr.grocery.store.grocerystore.model.Order;
+import hr.grocery.store.grocerystore.model.OrderSearchForm;
 import hr.grocery.store.grocerystore.model.User;
 import hr.grocery.store.grocerystore.repository.SpringDataJpaOrderRepository;
 import hr.grocery.store.grocerystore.repository.SpringDataJpaUserRepository;
@@ -29,8 +31,36 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<Order> getOrdersByDate(String date) {
-        return List.of();
+    public List<Order> filterByCriteria(OrderSearchForm orderSearchForm) {
+        List<Order> orderList = orderRepository.findAll();
+
+        if (!orderSearchForm.getUsername().isEmpty())
+        {
+            orderList = orderList
+                    .stream()
+                    .filter(g -> g.getUser().getUsername().toLowerCase().contains(orderSearchForm.getUsername().toLowerCase()))
+                    .toList();
+        }
+
+        if (orderSearchForm.getStartDate() != null)
+        {
+            orderList = orderList
+                    .stream()
+                    .filter(g -> g.getOrderTs().toInstant().isAfter(orderSearchForm.getStartDate().toInstant().minusSeconds(1)))
+                    .toList();
+
+        }
+
+        if (orderSearchForm.getEndDate() != null)
+        {
+            orderList = orderList
+                    .stream()
+                    .filter(g -> g.getOrderTs().toInstant().isBefore(orderSearchForm.getEndDate().toInstant().plusSeconds(86399)))
+                    .toList();
+
+        }
+
+        return orderList;
     }
 
 }
