@@ -26,7 +26,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" th:href="@{/store/shoppingCart}">View cart</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" th:if="${!loggedIn}">
+                <a class="nav-link" href="#" th:href="@{/login}">Login</a>
+            </li>
+            <li class="nav-item" th:if="${loggedIn}">
                 <a class="nav-link" href="#" th:href="@{/logout}">Log Out</a>
             </li>
         </ul>
@@ -78,7 +81,9 @@
             </tr>
             </tbody>
         </table>
-
+        <form th:action="@{/store/clearShoppingCart}" method="post">
+            <button type="submit" class="btn btn-danger">Clear shopping cart</button>
+        </form>
         <div class="text-right">
             <h4>Total:
                 <span th:text="${#numbers.formatDecimal(total == null ? 0 : total, 1, 2)} + ' €'"></span>

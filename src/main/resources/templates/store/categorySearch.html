@@ -47,7 +47,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" th:href="@{/store/myOrders}">My orders</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" th:if="${!loggedIn}">
+                <a class="nav-link" href="#" th:href="@{/login}">Login</a>
+            </li>
+            <li class="nav-item" th:if="${loggedIn}">
                 <a class="nav-link" href="#" th:href="@{/logout}">Log Out</a>
             </li>
         </ul>

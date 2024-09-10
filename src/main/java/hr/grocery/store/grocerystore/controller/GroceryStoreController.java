@@ -6,6 +6,7 @@ import com.paypal.base.rest.PayPalRESTException;
 import hr.grocery.store.grocerystore.event.AddToCartEvent;
 import hr.grocery.store.grocerystore.model.CartGrocery;
 import hr.grocery.store.grocerystore.model.Grocery;
+import hr.grocery.store.grocerystore.model.User;
 import hr.grocery.store.grocerystore.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
@@ -67,10 +68,20 @@ public class GroceryStoreController {
         return "redirect:shoppingCart";
     }
 
+    @PostMapping("/clearShoppingCart")
+    public String clearShoppingCart()
+    {
+        shoppingCartService.clearShoppingCart();
+
+        return "redirect:shoppingCart";
+    }
+
 
     @GetMapping("/shoppingCart")
     public String viewShoppingCart(Model model)
     {
+        User user = userDetailsService.loadCurrentUser();
+        model.addAttribute("loggedIn", user.getUsername() != null);
         List<CartGrocery> cartGroceries = shoppingCartService.getCartGroceryList();
         model.addAttribute("cartGroceries", cartGroceries);
         model.addAttribute("total", cartGroceries.stream().mapToDouble(g -> g.getGrocery().getPrice().doubleValue() * g.getAmount()).sum());
@@ -94,8 +105,8 @@ public class GroceryStoreController {
 
     @GetMapping("/myOrders")
     public String viewMyOrders(Model model){
-        //TODO: stavit da nade usera pa da po njemu trazi
-        model.addAttribute("orders", orderService.getOrdersByUser("user"));
+        User user = userDetailsService.loadCurrentUser();
+        model.addAttribute("orders", orderService.getOrdersByUser(user.getUsername()));
         return "store/myOrders";
     }
 

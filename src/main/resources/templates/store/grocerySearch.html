@@ -33,7 +33,6 @@
                     dataType: 'json',
                     success: function(groceries) {
                         console.log(groceries);
-                        // document.getElementById('ajaxSearchPlaceholder').innerHTML = JSON.stringify(groceries);
                         let tableBody = document.querySelector('.table tbody');
                         tableBody.innerHTML = '';
 
@@ -98,7 +97,10 @@
             <li class="nav-item">
                 <a class="nav-link" href="#" th:href="@{/store/shoppingCart}">View cart</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" th:if="${!loggedIn}">
+                <a class="nav-link" href="#" th:href="@{/login}">Login</a>
+            </li>
+            <li class="nav-item" th:if="${loggedIn}">
                 <a class="nav-link" href="#" th:href="@{/logout}">Log Out</a>
             </li>
         </ul>

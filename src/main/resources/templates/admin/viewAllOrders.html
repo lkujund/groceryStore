@@ -161,7 +161,7 @@
                     <tbody>
                     <tr th:each="grocery : ${order.groceries}">
                         <td th:text="${grocery.grocery.name}"></td>
-                        <td th:text="${grocery.grocery.category}"></td>
+                        <td th:text="${grocery.grocery.category.name}"></td>
                         <td th:text="${grocery.grocery.measure} + ' ' + ${grocery.grocery.measuringUnit.name}"></td>
                         <td th:text="${grocery.count}"></td>
                         <td th:text="${{grocery.grocery.price * grocery.count}}"></td>

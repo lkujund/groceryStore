@@ -11,5 +11,6 @@ public interface ShoppingCartService {
 
     void changeGroceryAmount(int id, int amount);
     void removeGrocery(int id);
+    void clearShoppingCart();
     void pay(String paymentOption);
 }

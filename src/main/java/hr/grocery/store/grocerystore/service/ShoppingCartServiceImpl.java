@@ -16,6 +16,7 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ShoppingCartServiceImpl implements ShoppingCartService {
 
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
     private ShoppingCart shoppingCart;
     private SpringDataJpaGroceryRepository groceryRepository;
     private SpringDataJpaOrderRepository orderRepository;
@@ -63,15 +64,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public void pay(String paymentMethod) {
-        User user = new User();
-//        long id = userDetailService.GetUsersIdByName();
-//        String username = userDetailService.getUserName();
-//        user.setId(id);
-//        user.setUsername(username);
-        user.setId(1L);
-        user.setUsername("user");
+    public void clearShoppingCart() {
+        shoppingCart.getShoppingCart().clear();
+    }
 
+    @Override
+    public void pay(String paymentMethod) {
+        User user = userDetailsServiceImpl.loadCurrentUser();
 
         Order order = new Order();
         order.setUser(user);
