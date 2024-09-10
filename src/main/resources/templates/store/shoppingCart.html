@@ -44,7 +44,7 @@
                 <th scope="col">Price</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Total</th>
-                <th scope="col">Actions</th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -57,18 +57,18 @@
                         </div>
                     </div>
                 </td>
-                <td th:text="${#numbers.formatDecimal(cartGrocery.grocery.price, 1, 'COMMA', 2)} + ' €'">Price</td>
+                <td th:text="${cartGrocery.grocery.price} + ' €'">Price</td>
                 <td>
-                    <form th:action="@{/cart/updateQuantity}" method="post" class="form-inline">
-                        <input type="hidden" name="groceryId" th:value="${cartGrocery.grocery.id}">
+                    <form th:action="@{/store/changeAmount}" method="post" class="form-inline">
+                        <input type="hidden" name="id" th:value="${cartGrocery.grocery.id}">
                         <input type="number" name="amount" th:value="${cartGrocery.amount}" class="form-control" style="width: 80px;" min="1">
                         <button type="submit" class="btn btn-outline-primary ml-2">Update</button>
                     </form>
                 </td>
-                <td th:text="${#numbers.formatDecimal(cartGrocery.grocery.price * cartGrocery.amount, 1, 'COMMA', 2)} + ' €'">Total Price</td>
+                <td th:text="${#numbers.formatDecimal(cartGrocery.grocery.price.doubleValue() * cartGrocery.amount, 1, 2)} + ' €'">Total Price</td>
                 <td>
-                    <form th:action="@{/cart/remove}" method="post">
-                        <input type="hidden" name="groceryId" th:value="${cartGrocery.grocery.id}">
+                    <form th:action="@{/store/removeGrocery}" method="post">
+                        <input type="hidden" name="id" th:value="${cartGrocery.grocery.id}">
                         <button type="submit" class="btn btn-danger">Remove</button>
                     </form>
                 </td>
@@ -78,9 +78,9 @@
 
         <div class="text-right">
             <h4>Total:
-                <span th:text="${#numbers.formatDecimal(cartGroceries.stream().mapToDouble(cartGrocery -> cartGrocery.grocery.price * cartGrocery.amount).sum(), 1, 'COMMA', 2)} + ' €'"></span>
+                <span th:text="${#numbers.formatDecimal(total == null ? 0 : total, 1, 2)} + ' €'"></span>
             </h4>
-            <a href="#" class="btn btn-success mt-2">Proceed to Checkout</a>
+            <a th:href="@{/store/checkout}" class="btn btn-success mt-2">Proceed to Checkout</a>
         </div>
     </div>
 </div>

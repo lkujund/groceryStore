@@ -8,4 +8,8 @@ import java.util.List;
 public interface ShoppingCartService {
     void addItemToCart(CartGrocery cartGrocery);
     List<CartGrocery> getCartGroceryList();
+
+    void changeGroceryAmount(int id, int amount);
+    void removeGrocery(int id);
+    void pay(String paymentOption);
 }

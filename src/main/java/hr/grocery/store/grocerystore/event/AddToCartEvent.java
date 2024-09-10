@@ -10,10 +10,10 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 public class AddToCartEvent  extends ApplicationEvent
 {
-    private CartGrocery grocery;
+    private CartGrocery cartGrocery;
 
-    public AddToCartEvent(Object source, CartGrocery grocery) {
+    public AddToCartEvent(Object source, CartGrocery cartGrocery) {
         super(source);
-        this.grocery = grocery;
+        this.cartGrocery = cartGrocery;
     }
 }

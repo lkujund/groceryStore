@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Checkout</h1>
+
+    <div th:if="${cartGroceries.size() > 0}">
+        <table class="table table-hover mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cartGrocery : ${cartGroceries}">
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="ml-3">
+                            <h5 th:text="${cartGrocery.grocery.name}">Product Name</h5>
+                            <p th:text="${cartGrocery.grocery.category.name}">Category</p>
+                        </div>
+                    </div>
+                </td>
+                <td th:text="${cartGrocery.grocery.price} + ' €'">Price</td>
+                <td th:text="${cartGrocery.amount}">Amount</td>
+                <td th:text="${#numbers.formatDecimal(cartGrocery.grocery.price.doubleValue() * cartGrocery.amount, 1, 2)} + ' €'">Total Price</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="text-right">
+            <h4>Total:
+                <span th:text="${#numbers.formatDecimal(total == null ? 0 : total, 1, 2)} + ' €'"></span>
+            </h4>
+            <a th:href="@{/store/payCash}" class="btn btn-warning mt-2">Pay on delivery</a>
+            <a th:href="@{/store/payPal}" class="btn btn-info mt-2">Pay with PayPal</a>
+            <a th:href="@{/store/shoppingCart}" class="btn btn-danger mt-2">Return to cart</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

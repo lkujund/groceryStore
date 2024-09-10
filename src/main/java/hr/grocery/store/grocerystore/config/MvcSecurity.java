@@ -28,6 +28,7 @@ public class MvcSecurity {
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/store/**").permitAll()
+                        .requestMatchers("/store/shoppingCart").permitAll()
                         .requestMatchers("/rest/**").permitAll()
                         .requestMatchers("/admin/**").permitAll()
                         .requestMatchers("/").permitAll()
