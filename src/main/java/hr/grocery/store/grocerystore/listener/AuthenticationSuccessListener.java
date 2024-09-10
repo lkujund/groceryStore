@@ -21,8 +21,8 @@ import java.time.Instant;
 public class AuthenticationSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationSuccessListener.class);
-    private final SpringDataJpaLogRepository logRepository;
-    private final HttpServletRequest request;
+    private SpringDataJpaLogRepository logRepository;
+    private HttpServletRequest request;
 
 
     @Override

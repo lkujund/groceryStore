@@ -13,7 +13,6 @@ public class RootController {
     @GetMapping("")
     public String redirectToHome(Model model)
     {
-        //todo: if admin redirect:admin/manageGroceries else redirect:store/grocerySearch
         return "redirect:store/grocerySearch";
     }
 }

@@ -1,13 +1,11 @@
 package hr.grocery.store.grocerystore.service;
 
-import hr.grocery.store.grocerystore.model.Grocery;
 import hr.grocery.store.grocerystore.model.Order;
 import hr.grocery.store.grocerystore.model.OrderSearchForm;
 import hr.grocery.store.grocerystore.model.User;
 import hr.grocery.store.grocerystore.repository.SpringDataJpaOrderRepository;
 import hr.grocery.store.grocerystore.repository.SpringDataJpaUserRepository;
 import lombok.AllArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +24,7 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public List<Order> getOrdersByUser(String username) {
-        User user = userRepository.findUserByUsername(username);
+        User user = userRepository.findByUsername(username).get();
         return orderRepository.findByUser(user);
     }
 

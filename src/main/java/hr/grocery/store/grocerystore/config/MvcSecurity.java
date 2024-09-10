@@ -5,6 +5,8 @@ import hr.grocery.store.grocerystore.handler.GroceryStoreAuthenticationSuccessHa
 import hr.grocery.store.grocerystore.model.ShoppingCart;
 import hr.grocery.store.grocerystore.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,31 +19,43 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.context.request.RequestContextListener;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.thymeleaf.spring6.expression.Mvc;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
 public class MvcSecurity {
 
-    private final GroceryStoreAuthenticationSuccessHandler handler;
     private final UserDetailsServiceImpl userDetailsService;
 
+    public MvcSecurity(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
     @Bean
-    SecurityFilterChain web(HttpSecurity http) throws Exception {
+    SecurityFilterChain web(HttpSecurity http, GroceryStoreAuthenticationSuccessHandler handler) throws Exception {
         http
                 .addFilterBefore(new AddressFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers("/store/categorySearch", "/store/grocerySearch", "/store/shoppingCart").permitAll()
+                        .requestMatchers("/store/checkout","/store/myOrders", "/store/error", "/store/success").hasAuthority("USER")
+//                        .requestMatchers("/store/categorySearch", "/store/grocerySearch", "/store/shoppingCart",
+//                        "/store/").permitAll()
+                        .requestMatchers("/store/**").permitAll()
                         .requestMatchers("/rest/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/store/checkout","/store/myOrders", "/store/error", "/store/success").hasRole("USER")
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/h2-console/**", "/login"))
                 .formLogin(form -> form
+//                                .defaultSuccessUrl("/store/grocerySearch")
                                 .successHandler(handler)
                         )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
@@ -57,17 +71,32 @@ public class MvcSecurity {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return userDetailsService;
-    }
-
-    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedMethods(List.of("*"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedOrigins(List.of("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+    @Bean
+    public FilterRegistrationBean<AddressFilter> addressFilterRegistration() {
+        FilterRegistrationBean<AddressFilter> registration = new FilterRegistrationBean<>();
+        registration.setFilter(new AddressFilter());
+        registration.addUrlPatterns("/login/*");
+        return registration;
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<RequestContextListener> requestContextListener() {
+        return new ServletListenerRegistrationBean<>(new RequestContextListener());
     }
 }

@@ -29,6 +29,7 @@ public class GroceryStoreController {
     private PayPalService payPalService;
     private HttpServletRequest request;
     private OrderService orderService;
+    private UserDetailsServiceImpl userDetailsService;
 
 
     //SHOPPING CART

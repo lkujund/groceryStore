@@ -3,10 +3,7 @@ package hr.grocery.store.grocerystore.controller;
 import hr.grocery.store.grocerystore.dto.GroceryCategoryDTO;
 import hr.grocery.store.grocerystore.dto.GroceryDTO;
 import hr.grocery.store.grocerystore.model.*;
-import hr.grocery.store.grocerystore.service.GroceryCategoryService;
-import hr.grocery.store.grocerystore.service.GroceryService;
-import hr.grocery.store.grocerystore.service.LogService;
-import hr.grocery.store.grocerystore.service.OrderService;
+import hr.grocery.store.grocerystore.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +22,7 @@ public class AdminController {
     private GroceryCategoryService groceryCategoryService;
     private LogService logService;
     private OrderService orderService;
+    private UserDetailsServiceImpl userDetailsService;
 
 
     //GROCERY
