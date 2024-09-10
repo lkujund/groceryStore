@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -72,6 +73,7 @@ public class GroceryServiceImpl implements GroceryService{
         grocery.setPrice(editedGrocery.getPrice());
         grocery.setDescription(editedGrocery.getDescription());
         grocery.setImage(editedGrocery.getImage());
+        grocery.setB64Image(Base64.getEncoder().encodeToString(editedGrocery.getImage()));
 
         groceryStoreRepository.save(grocery);
     }

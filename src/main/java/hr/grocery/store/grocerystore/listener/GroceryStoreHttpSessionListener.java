@@ -18,9 +18,9 @@ public class GroceryStoreHttpSessionListener implements HttpSessionListener {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .getRequest();
 
-        String ipAddress = request.getRemoteAddr();
+        String address = request.getRemoteAddr();
 
-        log.info("Session created! The IP address is " + ipAddress);
+        log.info("Session created! The IP address is " + address);
     }
 
     @Override
