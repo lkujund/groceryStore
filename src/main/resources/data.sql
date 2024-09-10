@@ -34,8 +34,8 @@ VALUES ('APPLE', 1, 1, 1.0, 1.19, 'Granny smith'),
 -- VALUES('USER'),('ADMIN');
 --
 INSERT INTO USERS(USERNAME, PASSWORD, ROLE)
-VALUES ('user','$2a$12$2rPaONNwo.mMzitrpNSSm.ncTTICHnZP1HJs5unFDzj68SCa6/VDa', 'USER'),
-       ('admin','$2a$10$3wrpcr6BIppShGO74CCtNOT1BbOI3T2e4832vW9lBqwAqT6qhkDi2', 'ADMIN');
+VALUES ('user','$2a$10$uDwTvgsANJhN7z4CtqKoIOuVWGZ4EndzBkiljzyjh.F0R2Vvn.xO6', 'USER'),
+       ('admin','$2a$10$uDwTvgsANJhN7z4CtqKoIOuVWGZ4EndzBkiljzyjh.F0R2Vvn.xO6', 'ADMIN');
 
 INSERT INTO ORDERS (USER_ID, ORDER_DATE, PAYMENT_METHOD)
 VALUES (1, '2024-09-09 13:00:00', 'COD'),
